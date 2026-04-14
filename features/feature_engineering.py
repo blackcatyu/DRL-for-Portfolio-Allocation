@@ -40,7 +40,7 @@ def rolling_zscore(df, window=60):
     return (df - mean) / (std + 1e-8)
 
 
-def build_features(df, return_window=20, corr_window=20, rsi_window=14, zscore_window=60):
+def build_features(df, return_window=20, corr_window=20, rsi_window=14, zscore_window=20):
     """
     Input: df of raw prices (gold, silver, copper)
     Output: Normalised feature matrix, with rows containing NaN values removed

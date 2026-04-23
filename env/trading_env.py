@@ -37,7 +37,9 @@ class MetalTradingEnv(gym.Env):
         return obs, {}
     
     def _get_obs(self):
-        return np.concatenate([self.features[self.t], self.weights]).astype(np.float32)
+        obs = np.concatenate([self.features[self.t], self.weights]).astype(np.float32)
+        obs = np.nan_to_num(obs, nan=0.0)  # 把任何NaN替换成0
+        return obs
     
     def step(self, action):
         # 归一化action，确保权重和为1
@@ -49,8 +51,14 @@ class MetalTradingEnv(gym.Env):
         log_ret_with_cash = np.append(log_ret, 0.0)  # 现金不产生收益
         
         # 价格变动后weight自动漂移
+         # 价格变动后weight自动漂移
         asset_values = self.weights * np.exp(log_ret_with_cash)
-        drifted_weights = asset_values / asset_values.sum()
+        total_value = asset_values.sum()
+        
+        if total_value <= 0 or np.isnan(total_value):
+            drifted_weights = np.array([0.25, 0.25, 0.25, 0.25], dtype=np.float32)
+        else:
+            drifted_weights = asset_values / total_value
         
         # 交易成本基于漂移后weight和目标weight的差
         turnover = np.sum(np.abs(action - drifted_weights))

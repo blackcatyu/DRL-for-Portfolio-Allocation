@@ -42,46 +42,40 @@ class MetalTradingEnv(gym.Env):
         return obs
     
     def step(self, action):
-        # 归一化action，确保权重和为1
         action = np.clip(action, 0, 1)
         action = action / (action.sum() + 1e-8)
-        
-        # 当天log return（现金return为0）
+    
         log_ret = np.log(self.prices[self.t] / self.prices[self.t - 1])
-        log_ret_with_cash = np.append(log_ret, 0.0)  # 现金不产生收益
-        
-        # 价格变动后weight自动漂移
+        log_ret_with_cash = np.append(log_ret, 0.0)
+    
+        # 价格变动后weight漂移
         asset_values = self.weights * np.exp(log_ret_with_cash)
-        total_value = asset_values.sum()
-        
-        if total_value <= 0 or np.isnan(total_value):
-            drifted_weights = np.array([0.25, 0.25, 0.25, 0.25], dtype=np.float32)
+        total = asset_values.sum()
+        if total < 1e-8:
+          drifted_weights = self.weights.copy()
         else:
-            drifted_weights = asset_values / total_value
-        
-        # 交易成本基于漂移后weight和目标weight的差
+          drifted_weights = asset_values / total
+        self.drifted_weights = drifted_weights.copy()  # 暴露漂移后的weights
+    
+        # 交易成本
         turnover = np.sum(np.abs(action - drifted_weights))
         cost = turnover * self.transaction_cost
-        
+    
         # portfolio return
         portfolio_return = np.dot(drifted_weights, log_ret_with_cash) - cost
-        
-        # 更新portfolio value和weights
         self.portfolio_value *= np.exp(portfolio_return)
         self.weights = action.copy()
-        
-        # reward
+    
         reward = portfolio_return
-        
-        # 移到下一天
+    
         self.t += 1
         done = self.t >= self.T
-        
+
         if done:
             obs = np.zeros(self.n_features + self.n_actions, dtype=np.float32)
         else:
             obs = self._get_obs()
-            
+        
         return obs, reward, done, False, {}
     
     def render(self):

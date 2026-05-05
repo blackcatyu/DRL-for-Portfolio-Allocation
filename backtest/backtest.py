@@ -46,22 +46,19 @@ def run_equal_weight(env):
     return np.array(portfolio_values)
 
 def run_buy_and_hold(env):
-    """
-    BScenario 2: Buy and hold, with an initial allocation of one-third across each of the three assets, and no subsequent rebalancing
-    """
     obs, _ = env.reset()
     done = False
     
     portfolio_values = [1.0]
     
-    # First, divide your investment into three equal parts; do not hold any cash.
+    # 第一步三等分买入
     initial_action = np.array([1/3, 1/3, 1/3, 0.0], dtype=np.float32)
     obs, reward, done, _, _ = env.step(initial_action)
     portfolio_values.append(env.portfolio_value)
     
-    # Then remain stationary; action equals the current drifted weights
+    # 之后传入漂移后的weights，不主动调仓
     while not done:
-        obs, reward, done, _, _ = env.step(env.weights)
+        obs, reward, done, _, _ = env.step(env.drifted_weights.copy())
         portfolio_values.append(env.portfolio_value)
     
     return np.array(portfolio_values)

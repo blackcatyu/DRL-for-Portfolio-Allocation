@@ -31,13 +31,13 @@ def run_agent(model, env):
 
 def run_equal_weight(env):
     """
-    Baseline 1: Equal weighting, rebalanced daily to 25%
+    Baseline 1: Equal weighting, rebalanced daily to maintain a 1/3 allocation to each of the three assets, with no cash held
     """
     obs, _ = env.reset()
     done = False
     
     portfolio_values = [1.0]
-    equal_action = np.array([0.25, 0.25, 0.25, 0.25], dtype=np.float32)
+    equal_action = np.array([1/3, 1/3, 1/3, 0.0], dtype=np.float32)
     
     while not done:
         obs, reward, done, _, _ = env.step(equal_action)
@@ -45,18 +45,17 @@ def run_equal_weight(env):
     
     return np.array(portfolio_values)
 
-
 def run_buy_and_hold(env):
     """
-    Baseline 2: Buy and hold, with equal initial weightings and no subsequent rebalancing
+    BScenario 2: Buy and hold, with an initial allocation of one-third across each of the three assets, and no subsequent rebalancing
     """
     obs, _ = env.reset()
     done = False
     
     portfolio_values = [1.0]
     
-    # Step 1: Buy on an equal-weight basis
-    initial_action = np.array([0.25, 0.25, 0.25, 0.25], dtype=np.float32)
+    # First, divide your investment into three equal parts; do not hold any cash.
+    initial_action = np.array([1/3, 1/3, 1/3, 0.0], dtype=np.float32)
     obs, reward, done, _, _ = env.step(initial_action)
     portfolio_values.append(env.portfolio_value)
     

@@ -36,7 +36,7 @@ class MetalTradingEnvV2(gym.Env):
     
     def _get_obs(self):
         # state里用drifted_weights，反映真实持仓
-        obs = np.concatenate([self.features[self.t], self.weights]).astype(np.float32)
+        obs = np.concatenate([self.features[self.t-1], self.weights]).astype(np.float32)
         obs = np.nan_to_num(obs, nan=0.0)
         return obs
     

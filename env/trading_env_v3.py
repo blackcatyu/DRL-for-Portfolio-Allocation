@@ -38,7 +38,7 @@ class MetalTradingEnvV3(gym.Env):
         return obs, {}
     
     def _get_obs(self):
-        obs = np.concatenate([self.features[self.t], self.weights]).astype(np.float32)
+        obs = np.concatenate([self.features[self.t-1], self.weights]).astype(np.float32)
         obs = np.nan_to_num(obs, nan=0.0)
         return obs
     

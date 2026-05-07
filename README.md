@@ -53,7 +53,7 @@ project/
 │   └── results.ipynb            # Final results and visualization
 ├── environment.yaml             # Conda environment specification
 └── README.txt                   # This file
-
+```
 
 # 4. FILE DESCRIPTIONS
 

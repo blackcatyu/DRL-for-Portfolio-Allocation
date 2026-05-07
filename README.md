@@ -139,6 +139,5 @@ Data leakage:
 
 Agents directory:
     please view the name of agent align with training part in notbooks
-    - SAC (1M steps):  approximately 2-4 hours
 
 ================================================================================

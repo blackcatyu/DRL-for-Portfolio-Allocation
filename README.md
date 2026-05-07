@@ -1,9 +1,9 @@
-Deep Reinforcement Learning for Portfolio Allocation in Non-Ferrous Metal Futures
-Muyu Deng | STATS 402: Interdisciplinary Data Analysis
+### Deep Reinforcement Learning for Portfolio Allocation in Non-Ferrous Metal Futures
+#### Muyu Deng | STATS 402: Interdisciplinary Data Analysis
 
-================================================================================
-1. DATASET
-================================================================================
+
+# 1. DATASET 
+
 
 Data source: Tonghuashun (同花顺, https://www.10jqka.com.cn/)
 
@@ -14,9 +14,9 @@ to December 2025 (3,157 trading days, no missing values).
 The data/ directory is not tracked in this repository. You must obtain and
 place the data file manually before running any code.
 
-================================================================================
-2. ENVIRONMENT SETUP
-================================================================================
+
+# 2. ENVIRONMENT SETUP
+
 
 This project uses Anaconda for environment management. To reproduce the
 environment exactly:
@@ -27,10 +27,10 @@ environment exactly:
 The environment.yaml file is included in the root directory of this repository
 and contains all package versions used in this project.
 
-================================================================================
-3. PROJECT STRUCTURE
-================================================================================
 
+# 3. PROJECT STRUCTURE
+
+```plaintext
 project/
 ├── data/                        # Raw price data (not tracked, see Section 1)
 ├── env/
@@ -54,9 +54,8 @@ project/
 ├── environment.yaml             # Conda environment specification
 └── README.txt                   # This file
 
-================================================================================
-4. FILE DESCRIPTIONS
-================================================================================
+
+# 4. FILE DESCRIPTIONS
 
 --- env/trading_env.py ---
 V1 trading environment (initial reward design).
@@ -126,9 +125,9 @@ Key functionality:
 - Supports equal-weight and buy-and-hold baseline strategies for comparison
 - Returns a results dictionary and portfolio value time series for plotting
 
-================================================================================
-6. IMPORTANT NOTES
-================================================================================
+
+# 5. IMPORTANT NOTES
+
 
 Data leakage:
     An earlier version of the environment included same-day features f_t in

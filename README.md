@@ -11,8 +11,7 @@ The dataset consists of daily settlement prices for gold, silver, and copper
 futures traded on the Shanghai Futures Exchange (SHFE), covering January 2013
 to December 2025 (3,157 trading days, no missing values).
 
-The data/ directory is not tracked in this repository. You must obtain and
-place the data file manually before running any code.
+The data/ contain the data set.
 
 
 # 2. ENVIRONMENT SETUP
@@ -32,7 +31,7 @@ and contains all package versions used in this project.
 
 ```plaintext
 project/
-├── data/                        # Raw price data (not tracked, see Section 1)
+├── data/                        # Raw price data
 ├── env/
 │   ├── trading_env.py           # V1 trading environment
 │   ├── trading_env_v2.py        # V2 trading environment
